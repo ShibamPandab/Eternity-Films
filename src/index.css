@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-black: #0B0B0B;
+  --color-brand-gold: #D6B37A;
+  --color-brand-gold-light: #E5CFA8;
+  --color-brand-white: #F8F5F0;
+  
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "Inter", sans-serif;
+  
+  --animate-pulse-gold: pulse-gold 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-slow-zoom: slow-zoom 20s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-gold {
+  0%, 100% {
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(214, 179, 122, 0.4);
+  }
+  50% {
+    opacity: .7;
+    text-shadow: 0 0 20px rgba(214, 179, 122, 0.8), 0 0 30px rgba(214, 179, 122, 0.4);
+  }
+}
+
+@keyframes slow-zoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #0B0B0B;
+  color: #F8F5F0;
+  overflow-x: hidden;
+}
+
+/* Custom Luxury Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0B0B;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D6B37A;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E5CFA8;
+}
+
+/* Remove default root constraints from Vite template */
+#root {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  text-align: left !important;
+  border-inline: none !important;
+  min-height: auto !important;
+  display: block !important;
+  flex-direction: unset !important;
+  box-sizing: border-box !important;
+}
+
+/* Letterboxing styling for cinema feel */
+.cinema-border-t, .cinema-border-b {
+  height: 40px;
+  background-color: #000;
+  width: 100%;
+  position: relative;
+  z-index: 50;
+  transition: all 0.5s ease;
+}
+
+/* Custom Gradients */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #F8F5F0 0%, #D6B37A 50%, #B8935A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #D6B37A 0%, #B8935A 100%);
+}
+
+.bg-glass {
+  background: rgba(11, 11, 11, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.border-gold-soft {
+  border: 1px solid rgba(214, 179, 122, 0.2);
+}
+
+.border-gold-focus {
+  border: 1px solid rgba(214, 179, 122, 0.8);
+}
+
+/* Masonry Layout */
+.masonry-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .masonry-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Custom utility for hiding scrollbar but maintaining function */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

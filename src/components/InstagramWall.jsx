@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Heart, MessageCircle } from "lucide-react";
+import backupImage from "../assets/moment-2.jpg";
 
 const Instagram = ({ size = 16, className = "" }) => (
   <svg
@@ -51,7 +52,7 @@ const instagramPhotos = [
   },
   {
     id: 5,
-    url: "https://images.unsplash.com/photo-1507504038482-7621c43f2c0a?q=80&w=600",
+    url: "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=600",
     likes: "3,110",
     comments: "192",
     aspect: "aspect-[4/3]",
@@ -66,6 +67,9 @@ const instagramPhotos = [
 ];
 
 export default function InstagramWall() {
+  const [photoUrls, setPhotoUrls] = useState(
+    instagramPhotos.reduce((acc, p) => ({ ...acc, [p.id]: p.url }), {})
+  );
   return (
     <section className="py-24 bg-[#070707] border-t border-[#D6B37A]/15 relative z-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -103,10 +107,19 @@ export default function InstagramWall() {
               className={`relative ${photo.aspect} rounded-xl overflow-hidden group border border-[#D6B37A]/10 bg-[#0B0B0B] break-inside-avoid shadow-lg cursor-pointer mb-6`}
             >
               {/* Image */}
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
-                style={{ backgroundImage: `url(${photo.url})` }}
-              />
+              <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105">
+                <img
+                  src={photoUrls[photo.id]}
+                  alt={`Instagram moment ${photo.id}`}
+                  className="w-full h-full object-cover"
+                  onError={() => {
+                    setPhotoUrls((prev) => ({
+                      ...prev,
+                      [photo.id]: backupImage,
+                    }));
+                  }}
+                />
+              </div>
 
               {/* Gold overlay vignette */}
               <div className="absolute inset-0 bg-gradient-to-b from-[#0B0B0B]/10 via-[#0B0B0B]/30 to-[#D6B37A]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />

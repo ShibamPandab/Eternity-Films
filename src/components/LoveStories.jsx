@@ -1,5 +1,6 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import backupImage from "../assets/moment-3.jpg";
 
 const timelineEvents = [
   {
@@ -23,7 +24,7 @@ const timelineEvents = [
     title: "The Festive Engagement",
     subtitle: "Rhythms of promise and celebration",
     description: "Surrounded by family and standard heirs, rings are exchanged under a canopy of warm lights. Laughter echoes as two families become one.",
-    image: "https://images.unsplash.com/photo-1519225495810-7512c696505a?q=80&w=600",
+    image: "https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=600",
     time: "One Month Later",
   },
   {
@@ -46,6 +47,9 @@ const timelineEvents = [
 
 export default function LoveStories() {
   const containerRef = useRef(null);
+  const [eventImages, setEventImages] = useState(
+    timelineEvents.reduce((acc, event) => ({ ...acc, [event.id]: event.image }), {})
+  );
   
   // Custom scroll linking for the vertical line
   const { scrollYProgress } = useScroll({
@@ -106,10 +110,19 @@ export default function LoveStories() {
                         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                         className="relative aspect-4/3 rounded-lg overflow-hidden border border-[#D6B37A]/15 shadow-2xl group"
                       >
-                        <div 
-                          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                          style={{ backgroundImage: `url(${event.image})` }}
-                        />
+                        <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-105">
+                          <img
+                            src={eventImages[event.id]}
+                            alt={event.title}
+                            className="w-full h-full object-cover"
+                            onError={() => {
+                              setEventImages((prev) => ({
+                                ...prev,
+                                [event.id]: backupImage,
+                              }));
+                            }}
+                          />
+                        </div>
                         <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-300" />
                       </motion.div>
                     ) : (
@@ -161,10 +174,19 @@ export default function LoveStories() {
                         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                         className="relative aspect-4/3 rounded-lg overflow-hidden border border-[#D6B37A]/15 shadow-2xl group"
                       >
-                        <div 
-                          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                          style={{ backgroundImage: `url(${event.image})` }}
-                        />
+                        <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-105">
+                          <img
+                            src={eventImages[event.id]}
+                            alt={event.title}
+                            className="w-full h-full object-cover"
+                            onError={() => {
+                              setEventImages((prev) => ({
+                                ...prev,
+                                [event.id]: backupImage,
+                              }));
+                            }}
+                          />
+                        </div>
                         <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-300" />
                       </motion.div>
                     ) : (

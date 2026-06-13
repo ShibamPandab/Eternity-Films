@@ -1,128 +1,226 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 
-// Import local image assets to ensure they load locally without requiring external APIs
-import moment1 from "../assets/moment-1.jpg";
-import moment2 from "../assets/moment-2.jpg";
-import moment3 from "../assets/moment-3.jpg"; // Intended hero image for "Whispered Promises"
-import moment4 from "../assets/moment-4.jpg";
-import moment5 from "../assets/moment-5.jpg";
-import moment6 from "../assets/moment-6.jpg";
-
-const moments = [
-  {
-    id: 1,
-    title: "The Royal Serenade",
-    subtitle: "Jaipur Palace, India",
-    image: moment1,
-    span: "md:col-span-8 aspect-[16/10]",
-    caption: "Vows spoken in the court of kings.",
-  },
-  {
-    id: 2,
-    title: "The Starlight Waltz",
-    subtitle: "Toscana, Italy",
-    image: moment2,
-    span: "md:col-span-4 aspect-[3/4]",
-    caption: "Dancing under a canopy of stars.",
-  },
-  {
-    id: 3,
-    title: "Whispered Promises",
-    subtitle: "Cappadocia, Turkey",
-    image: moment3,
-    span: "md:col-span-4 aspect-[3/4]",
-    caption: "A silhouette written in the Cappadocia sky.",
-  },
-  {
-    id: 4,
-    title: "The Grand Exit",
-    subtitle: "Udaipur, India",
-    image: moment4,
-    span: "md:col-span-8 aspect-[16/10]",
-    caption: "Sparklers lighting the path to forever.",
-  },
-  {
-    id: 5,
-    title: "Symphony of Dunes",
-    subtitle: "Jaisalmer, India",
-    image: moment5,
-    span: "md:col-span-6 aspect-square md:aspect-[4/3]",
-    caption: "Golden vows in the heart of the desert dunes.",
-  },
-  {
-    id: 6,
-    title: "The Pure Embrace",
-    subtitle: "Lake Como, Italy",
-    image: moment6,
-    span: "md:col-span-6 aspect-square md:aspect-[4/3]",
-    caption: "An intimate promise sealed beside quiet waters.",
-  },
-];
+// Local image imports to guarantee offline visibility
+import moment1 from "../assets/moment-1.jpg"; // Center large featured image
+import moment2 from "../assets/moment-2.jpg"; // Top Left
+import moment5 from "../assets/moment-5.jpg"; // Top Center
+import moment6 from "../assets/moment-6.jpg"; // Top Right
+import moment4 from "../assets/moment-4.jpg"; // Bottom Left
+import moment3 from "../assets/moment-3.jpg"; // Bottom Right
 
 export default function SignatureMoments() {
+  const containerRef = useRef(null);
+
+  // Scroll tracking of the collage section
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  // Unique parallax speeds for each coordinate to create dimensional separation
+  const yTopLeft = useTransform(scrollYProgress, [0, 1], [-40, 40]);
+  const yTopCenter = useTransform(scrollYProgress, [0, 1], [-20, 20]);
+  const yTopRight = useTransform(scrollYProgress, [0, 1], [-50, 50]);
+  
+  const yCenter = useTransform(scrollYProgress, [0, 1], [-10, 10]);
+
+  const yBottomLeft = useTransform(scrollYProgress, [0, 1], [-30, 30]);
+  const yBottomRight = useTransform(scrollYProgress, [0, 1], [-60, 60]);
+
   return (
-    <section id="signature" className="py-24 bg-[#0B0B0B] border-t border-[#D6B37A]/15 relative z-20">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
+    <section
+      ref={containerRef}
+      id="signature"
+      className="relative min-h-[140vh] bg-[#0B0B0B] py-32 overflow-hidden border-t border-[#D6B37A]/15 z-20 flex flex-col justify-between"
+    >
+      {/* Editorial Header */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full text-center z-10 pointer-events-none mb-12">
+        <span className="font-sans text-[10px] tracking-[0.3em] text-[#D6B37A] font-semibold uppercase block mb-3">
+          Atelier Collection
+        </span>
+        <h2 className="font-serif text-3xl md:text-5xl text-[#F8F5F0] tracking-wide uppercase">
+          Signature <span className="text-gold-gradient italic font-light">Moments</span>
+        </h2>
+        <p className="font-sans text-xs text-[#F8F5F0]/40 max-w-md mx-auto mt-4 leading-relaxed font-light">
+          A floating editorial gallery of raw human spirits. Hover to examine closely; scroll to see the layers breathe.
+        </p>
+      </div>
+
+      {/* Floating Canvas Area */}
+      <div className="relative flex-1 w-full max-w-7xl mx-auto min-h-[90vh]">
         
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-          <div>
-            <span className="font-sans text-[10px] tracking-[0.3em] text-[#D6B37A] font-semibold uppercase block mb-3">
-              Editorial Canvas
+        {/* ===================================================
+            TOP LEFT → Floating Image (moment-2)
+            =================================================== */}
+        <motion.div
+          style={{ y: yTopLeft }}
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="absolute top-[8%] left-[4%] md:left-[8%] w-[160px] h-[220px] md:w-[220px] md:h-[300px] z-20 group"
+        >
+          <motion.div
+            animate={{ y: [0, -10, 0] }}
+            transition={{ repeat: Infinity, duration: 6, ease: "easeInOut", delay: 0.1 }}
+            className="w-full h-full rounded border border-[#D6B37A]/15 bg-[#070707] p-2 flex flex-col justify-between shadow-2xl relative"
+            whileHover={{ scale: 1.03, borderColor: "rgba(214,179,122,0.6)" }}
+          >
+            <div
+              className="w-full h-[85%] bg-cover bg-center rounded grayscale hover:grayscale-0 transition-all duration-700"
+              style={{ backgroundImage: `url(${moment2})` }}
+            />
+            <span className="font-serif text-[9px] tracking-widest text-[#D6B37A] uppercase text-left mt-2">
+              01 • Toscana Waltz
             </span>
-            <h2 className="font-serif text-3xl md:text-5xl text-[#F8F5F0] tracking-wide uppercase">
-              Signature <span className="text-gold-gradient italic font-light">Moments</span>
-            </h2>
+          </motion.div>
+        </motion.div>
+
+        {/* ===================================================
+            TOP CENTER → Floating Image (moment-5)
+            =================================================== */}
+        <motion.div
+          style={{ y: yTopCenter }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+          className="absolute top-[2%] left-1/2 -translate-x-1/2 w-[140px] h-[190px] md:w-[200px] md:h-[260px] z-20 group"
+        >
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ repeat: Infinity, duration: 7, ease: "easeInOut", delay: 0.3 }}
+            className="w-full h-full rounded border border-[#D6B37A]/15 bg-[#070707] p-2 flex flex-col justify-between shadow-2xl relative"
+            whileHover={{ scale: 1.03, borderColor: "rgba(214,179,122,0.6)" }}
+          >
+            <div
+              className="w-full h-[85%] bg-cover bg-center rounded grayscale hover:grayscale-0 transition-all duration-700"
+              style={{ backgroundImage: `url(${moment5})` }}
+            />
+            <span className="font-serif text-[9px] tracking-widest text-[#D6B37A] uppercase text-left mt-2">
+              02 • Jaisalmer Dunes
+            </span>
+          </motion.div>
+        </motion.div>
+
+        {/* ===================================================
+            TOP RIGHT → Floating Image (moment-6)
+            =================================================== */}
+        <motion.div
+          style={{ y: yTopRight }}
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.4, ease: "easeOut" }}
+          className="absolute top-[10%] right-[4%] md:right-[8%] w-[170px] h-[210px] md:w-[240px] md:h-[300px] z-20 group"
+        >
+          <motion.div
+            animate={{ y: [0, -12, 0] }}
+            transition={{ repeat: Infinity, duration: 5.5, ease: "easeInOut", delay: 0.5 }}
+            className="w-full h-full rounded border border-[#D6B37A]/15 bg-[#070707] p-2 flex flex-col justify-between shadow-2xl relative"
+            whileHover={{ scale: 1.03, borderColor: "rgba(214,179,122,0.6)" }}
+          >
+            <div
+              className="w-full h-[85%] bg-cover bg-center rounded grayscale hover:grayscale-0 transition-all duration-700"
+              style={{ backgroundImage: `url(${moment6})` }}
+            />
+            <span className="font-serif text-[9px] tracking-widest text-[#D6B37A] uppercase text-left mt-2">
+              03 • Lake Como Embrace
+            </span>
+          </motion.div>
+        </motion.div>
+
+        {/* ===================================================
+            CENTER → Large Featured Wedding Image (moment-1)
+            =================================================== */}
+        <motion.div
+          style={{ y: yCenter }}
+          initial={{ opacity: 0, scale: 0.96 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] max-w-[380px] md:max-w-[480px] aspect-[3/4] z-10 group"
+        >
+          {/* External decorative frame offset */}
+          <div className="absolute -inset-4 border border-[#D6B37A]/20 rounded group-hover:scale-[1.01] transition-transform duration-500 pointer-events-none" />
+          
+          <div className="w-full h-full rounded overflow-hidden border border-[#D6B37A]/30 bg-[#070707] relative p-3 flex flex-col justify-between shadow-[0_0_60px_rgba(0,0,0,0.9)] hover:border-[#D6B37A]/80 transition-colors duration-500">
+            {/* Featured Image */}
+            <div
+              className="w-full h-[90%] bg-cover bg-center rounded"
+              style={{ backgroundImage: `url(${moment1})` }}
+            />
+            
+            {/* Caption */}
+            <div className="flex justify-between items-center mt-3 font-serif text-[10px] md:text-xs tracking-widest text-[#D6B37A] uppercase select-none">
+              <span>Featured Capture</span>
+              <span>The Royal Serenade</span>
+            </div>
           </div>
-          <p className="font-sans text-xs md:text-sm text-[#F8F5F0]/50 max-w-sm tracking-wide leading-relaxed">
-            A premium editorial masonry layout of our finest captures. Every heirloom moment is loaded locally with zero external network dependencies.
-          </p>
-        </div>
+        </motion.div>
 
-        {/* Editorial Masonry Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
-          {moments.map((moment, idx) => (
-            <motion.div
-              key={moment.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: idx * 0.1 }}
-              className={`relative ${moment.span} rounded-lg overflow-hidden group border border-[#D6B37A]/10 bg-[#070707] shadow-xl`}
-            >
-              {/* Local Image */}
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
-                style={{ backgroundImage: `url(${moment.image})` }}
-              />
+        {/* ===================================================
+            BOTTOM LEFT → Floating Image (moment-4)
+            =================================================== */}
+        <motion.div
+          style={{ y: yBottomLeft }}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.1, ease: "easeOut" }}
+          className="absolute bottom-[8%] left-[6%] md:left-[10%] w-[160px] h-[220px] md:w-[220px] md:h-[290px] z-20 group"
+        >
+          <motion.div
+            animate={{ y: [0, -7, 0] }}
+            transition={{ repeat: Infinity, duration: 6.5, ease: "easeInOut", delay: 0.2 }}
+            className="w-full h-full rounded border border-[#D6B37A]/15 bg-[#070707] p-2 flex flex-col justify-between shadow-2xl relative"
+            whileHover={{ scale: 1.03, borderColor: "rgba(214,179,122,0.6)" }}
+          >
+            <div
+              className="w-full h-[85%] bg-cover bg-center rounded grayscale hover:grayscale-0 transition-all duration-700"
+              style={{ backgroundImage: `url(${moment4})` }}
+            />
+            <span className="font-serif text-[9px] tracking-widest text-[#D6B37A] uppercase text-left mt-2">
+              04 • The Grand Exit
+            </span>
+          </motion.div>
+        </motion.div>
 
-              {/* Gold Tint Vignette Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/20 group-hover:via-black/45 group-hover:from-black/95 transition-all duration-300 pointer-events-none" />
+        {/* ===================================================
+            BOTTOM RIGHT → Floating Image (moment-3)
+            =================================================== */}
+        <motion.div
+          style={{ y: yBottomRight }}
+          initial={{ opacity: 0, y: 70 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.3, ease: "easeOut" }}
+          className="absolute bottom-[5%] right-[6%] md:right-[10%] w-[150px] h-[210px] md:w-[210px] md:h-[280px] z-20 group"
+        >
+          <motion.div
+            animate={{ y: [0, -9, 0] }}
+            transition={{ repeat: Infinity, duration: 5.8, ease: "easeInOut", delay: 0.4 }}
+            className="w-full h-full rounded border border-[#D6B37A]/15 bg-[#070707] p-2 flex flex-col justify-between shadow-2xl relative"
+            whileHover={{ scale: 1.03, borderColor: "rgba(214,179,122,0.6)" }}
+          >
+            <div
+              className="w-full h-[85%] bg-cover bg-center rounded grayscale hover:grayscale-0 transition-all duration-700"
+              style={{ backgroundImage: `url(${moment3})` }}
+            />
+            <span className="font-serif text-[9px] tracking-widest text-[#D6B37A] uppercase text-left mt-2">
+              05 • Whispered Promises
+            </span>
+          </motion.div>
+        </motion.div>
 
-              {/* Glowing Outline Hover Effect */}
-              <div className="absolute inset-0 border border-[#D6B37A]/0 group-hover:border-[#D6B37A]/40 rounded-lg transition-all duration-500 group-hover:shadow-[0_0_30px_rgba(214,179,122,0.2)] pointer-events-none" />
+      </div>
 
-              {/* Text Content Overlay */}
-              <div className="absolute inset-x-6 bottom-6 flex flex-col justify-end text-left z-10">
-                <span className="font-sans text-[8px] tracking-[0.2em] text-[#D6B37A] uppercase mb-1">
-                  {moment.subtitle}
-                </span>
-                
-                <h3 className="font-serif text-lg md:text-xl text-[#F8F5F0] tracking-wide uppercase mb-1 group-hover:text-[#D6B37A] transition-colors duration-300">
-                  {moment.title}
-                </h3>
-                
-                {/* Caption showing on hover */}
-                <p className="font-sans text-[10px] text-[#F8F5F0]/60 leading-relaxed font-light opacity-0 group-hover:opacity-100 transition-opacity duration-300 h-0 group-hover:h-auto overflow-hidden mt-1">
-                  {moment.caption}
-                </p>
-              </div>
-
-            </motion.div>
-          ))}
-        </div>
-
+      {/* Decorative footer text */}
+      <div className="max-w-7xl mx-auto px-6 w-full text-center z-10 mt-8">
+        <span className="font-serif text-[11px] tracking-[0.25em] text-[#D6B37A]/40 uppercase italic font-medium">
+          A Symphony of Fleeting Moments, Suspended in Time.
+        </span>
       </div>
     </section>
   );

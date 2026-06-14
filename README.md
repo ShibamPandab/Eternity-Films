@@ -146,4 +146,16 @@ Frontend Developer — React, TypeScript & Premium UI/UX Design
 - LinkedIn: [shibam-pandab](https://linkedin.com/in/shibam-pandab)
 - Portfolio: [shibam-portfolio-omega.vercel.app](https://shibam-portfolio-omega.vercel.app/)
 
+---
+
+## ⚠️ License Notice
+
+**Source code provided for portfolio demonstration purposes only.**
+
+This repository is intended to showcase development, design, and engineering work.
+
+Commercial reuse, redistribution, resale, cloning, or reproduction of this project without explicit written permission is prohibited.
+
+---
+
 *Eternity Films is part of a curated collection of premium frontend builds, each designed to explore a different visual world — from cinematic storytelling to luxury ecommerce and editorial branding.*
